@@ -1,0 +1,52 @@
+<nav class="uk-navbar-container uk-margin uk-navbar-primary" uk-navbar style="background-color:black;  margin-bottom:0%;">
+    <div class="uk-navbar-center">
+        <a class="uk-navbar-item uk-logo uk-navbar-center" href="/">
+            <h2 id="logo">Newsstand</h2>
+        </a>
+
+    </div>
+
+</nav>
+
+<div class="uk-inline">
+    <img src="./assets/img/newspaper.jpg" alt="newsstand" style="width:100%" />
+    <div class="uk-position-center">
+        <button id="scraper" class="uk-button uk-button-primary uk-overlay " style="padding:20px; font-size:x-large;">
+            <b>Scrape New Articles!</b>
+        </button>
+    </div>
+</div>
+
+<section style="text-align:center; ">
+    <a id="saved" href="#">
+        <h2 style="color:rgb(255, 255, 255); padding:20px; background-color:dodgerblue; margin-bottom:0%;">
+            <B>SAVED ARTICLES</B>
+        </h2>
+    </a>
+    </div>
+</section>
+
+<div class="uk-section" style="background-color:rgb(225, 220, 220);">
+
+    {{#each piece}}
+    <div class="uk-container">
+        <div class="uk-card uk-card-default">
+            <div class="uk-card-header " style="background-color:dodgerblue;">
+                <h4 class="uk-card-title uk-inline">{{this.title}}</h4>
+                <button id="articles" class="uk-button uk-button-light">
+                    <b>Article Notes</b>
+                </button>
+                <button class="uk-button uk-button-danger">
+                    <b>Delete From Saved</b>
+                </button>
+            </div>
+            <div class="uk-card-body">
+                <p>{{this.link}}</p>
+            </div>
+        </div>
+    </div>
+    <br style="line-height:30px; ">
+    {{/each}}
+</div>
+
+<br>
