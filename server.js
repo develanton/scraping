@@ -15,6 +15,7 @@ var cheerio = require("cheerio");
 // Require all models
 var db = require("./models");
 
+
 var PORT = 8080;
 
 // Initialize Express
@@ -50,26 +51,139 @@ mongoose.connect(MONGODB_URI);
 
 // Set mongoose to leverage built in JavaScript ES6 Promises
 // Connect to the Mongo DB
-mongoose.Promise = Promise;
 // mongoose.connect(MONGODB_URI);
 
-// Routes
 
-//Global Varibles
-// Create all our routes and set up logic within those routes where required.
+/** 
+* ? GET ROUTES ?
+*/
+
+// Articles not saved 
 app.get("/", function (req, res) {
 
-  
-  db.Article.find({}).then(function (data) {
-    
-    console.log(data);
 
-    res.render("index", {piece:data});
+  db.Article.find({ isSave: false }).then(function (data) {
+
+    // console.log(data);
+    console.log(data);
+    res.render("index", { piece: data });
 
   });
 
 });
 
+
+//Get from one article all the corresponding notes
+app.get("/articles/:id", function (req, res) {
+
+  db.Note.find({ title: req.params.id }).then(function (dbnotes) {
+
+
+    console.log(`Backend route found by one request the following item: 
+    ${dbnotes}`);
+
+    res.json(dbnotes);
+
+  })
+    .catch(function (err) {
+      // If an error occurred, send it to the client
+      res.json(err);
+    });
+
+});
+
+
+
+/*
+ * * Save data to db Routes
+*/
+// route to change boolean to true to show in saved.handlebars
+app.put("/saved/:id", function (req, res) {
+
+  db.Article.findOneAndUpdate({ _id: req.params.id }, { $set: { isSave: true } }).then(function (dbArticle) {
+
+
+    console.log(`getting only the saved item: 
+    ${dbArticle}`);
+
+    res.json(dbArticle);
+
+  })
+    .catch(function (err) {
+      // If an error occurred, send it to the client
+      res.json(err);
+    });
+
+});
+
+
+//Display only saved Articles
+app.get("/saved", function (req, res) {
+
+
+  db.Article.find({ isSave: true }).then(function (data) {
+
+    // console.log(data);
+    console.log(data);
+    res.render("saved", { pieceS: data });
+
+  });
+
+});
+
+
+// Route for saving/updating an Article's associated Note
+app.post("/article/:id", function (req, res) {
+  // Create a new note and pass the req.body to the entry
+
+  db.Article.findOne({ _id: req.params.id }).then(function () {
+    db.Note.create(req.body)
+      .then(function (dbNote) {
+
+        db.Note.find({ title: dbNote.title }).then(function (allnotes) {
+
+          console.log(`Backend route found by request the following item: 
+          ${allnotes}`);
+
+          res.json(allnotes);
+        })
+          .catch(function (err) {
+            // If an error occurred, send it to the client
+            res.json(err);
+          });
+        //console.log(`this is the response for dbNote${JSON.stringify(dbNote)}`);
+        //res.json(dbNote);
+      })
+  })
+});
+
+/*
+! *  TODO: Delete routes
+*/ 
+
+// Note delete route
+app.delete("/notes/:id", function (req, res) {
+
+  db.Note.deleteOne({ _id: req.params.id }).then(function () {
+    console.log("Note deleted");
+  });
+
+});
+
+app.delete("/delete/:id", function (req, res) {
+
+  db.Article.deleteOne({ _id: req.params.id }).then(function () {
+    console.log("Article deleted");
+  });
+
+});
+
+
+
+
+/**
+ * * Scrape route
+ */
 
 // A GET route for scraping the echoJS website
 app.get("/scrape", function (req, res) {
@@ -100,6 +214,7 @@ app.get("/scrape", function (req, res) {
         .then(function (dbArticle) {
           // View the added result in the console
           console.log(dbArticle);
+          res.redirect("/")
         })
         .catch(function (err) {
           // If an error occurred, send it to the client
@@ -109,7 +224,7 @@ app.get("/scrape", function (req, res) {
     });
     //  If we were able to successfully scrape and save an Article, send a message to the client
   });
-  res.send("Scrape Complete");
+  console.log("reloded");
 });
 
 // Start the server

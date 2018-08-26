@@ -11,15 +11,15 @@
 <div class="uk-inline">
     <img src="./assets/img/newspaper.jpg" alt="newsstand" style="width:100%" />
     <div class="uk-position-center">
-        <a href="/scrape" id="scraper" class="uk-button uk-button-primary uk-overlay " style="padding:20px; font-size:x-large;">
-            <b>Scrape New Articles!</b>
+        <a href="/" id="scraper" class="uk-button uk-button-primary uk-overlay " style="padding:20px; font-size:x-large;">
+            <b>Home!</b>
         </a>
     </div>
 </div>
 
 <section style="text-align:center; ">
-    <a id="saved" href="/saved">
-        <h2 style="color:rgb(255, 255, 255); padding:20px; background-color:dodgerblue; margin-bottom:0%;">
+    <a id="saved" href="#">
+        <h2 style="color:rgb(255, 255, 255) unactive:gray;  padding:20px; background-color:dodgerblue; margin-bottom:0%;">
             <B>SAVED ARTICLES</B>
         </h2>
     </a>
@@ -27,18 +27,17 @@
 </section>
 
 <div class="uk-section" style="background-color:rgb(225, 220, 220);">
-    {{#each piece}}
+    {{#each pieceS}}
     <div class="uk-container" >
         <div class="uk-card uk-card-default">
             <div class="uk-card-header " style="background-color:dodgerblue;">
-                <h4 class="uk-card-title-I uk-inline">{{this.title}}</h4>
+                <h4 class="uk-card-title uk-inline">{{this.title}}</h4>
 
-                <button id="articlesI" data-id={{this._id}} class="articles uk-button uk-button-primary" href="#" onclick="myFunc()" >Saved Articles</button>
-<!--
-                <button class="uk-button uk-button-danger" hidden>
+                <a id="articles" data-id={{this._id}} class="articles uk-button uk-button-primary" href="#modal-overflow" onclick="myFunc()" uk-toggle >Article Notes</a>
+
+                <button class="delete-button uk-button uk-button-danger" data-id={{this._id}}>
                     <b>Delete From Saved</b>
                 </button>
-                -->
             </div>
             <div class="uk-card-body">
                 <p>{{this.link}}</p>
@@ -61,7 +60,7 @@
 
                         <div class="uk-modal-body" uk-overflow-auto>
 
-                            <div id="modaling" class="uk-card-default">
+                            <div id="modaling" class="uk-card">
                             <form action="/notes" method="POST">
 
                             </div>
@@ -80,6 +79,7 @@
                 </div>
 
 
+
 <script>
 
  function myFunc(){
@@ -89,4 +89,5 @@
  }
 
 </script>
-	<script src="./assets/js/index.js"></script>
+
+	<script src="./assets/js/save.js"></script>

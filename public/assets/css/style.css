@@ -19,9 +19,18 @@ padding-top:20px;
 #scraper:hover{
     transform: scale(1.2);
 }
+#articlesI{
+    padding-top:1px; 
+    padding-bottom:1px; 
+    background-color: #91ce53
+    }
+#articlesI:hover{
+background-color: #9f9f9f;
+}
 #articles{
     padding-top:1px; 
     padding-bottom:1px; 
+    background-color: #d3d1d1
     }
 #articles:hover{
 background-color: #9f9f9f;
@@ -33,7 +42,13 @@ background-color: #9f9f9f;
     padding-right: 30px !important;
     width: 720px !important;
 }
-
+.uk-card-title-I{
+    font-size: 18px !important;
+    margin-right: 0px !important;
+    height: 50px !important;
+    padding-right: 30px !important;
+    width: 780px !important;
+}
 .uk-card-header{
     padding-left: 30px !important;
     padding-right: 10px !important;
@@ -41,4 +56,8 @@ background-color: #9f9f9f;
 .uk-card-body{
     height: 20px;
     padding: 20px !important;
+}
+#saved-notes{
+    width: 400px;
+    padding: 20px;
 }
